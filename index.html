@@ -14,7 +14,8 @@
 	<script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCS1GYR89D0t8w2NbSL63YAQt6GRoxmE90&callback=initialiseMap">
     </script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script async defer 
+	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script>
 // Initialize and add the map
 function initialiseMap() {
@@ -28,6 +29,10 @@ function initialiseMap() {
 	function(data) {
 		$(data.values).each(function() {
 		var title = this[0];
+		var date = this[2];
+		var frequency = this[3];
+		var time = this[4];
+		var details = this[5];
 		var position = {
 		 lat: parseFloat(parseFloat(this[6])),
 		 lng: parseFloat(parseFloat(this[7]))
@@ -37,6 +42,20 @@ function initialiseMap() {
 			map: map,
 			title: title,
 		});
+		var infowindow = new google.maps.InfoWindow({
+    content: "Content String"
+      });
+		 google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent('<div>'+
+    '<p><strong>' + ((title === undefined) ? title : ('<a href="' + title +'">' + title + '</a>')) + '</strong></p>' +
+    ((date === undefined) ? "" : ('<p><strong>Day of Week: </strong>' + date + '</p>')) +
+    ((frequency === undefined) ? "" : ('<p><strong>Frequency: </strong>' + frequency + '</p>')) +
+    ((time === undefined) ? "" : ('<p><strong>Time: </strong>' + time + '</p>')) +
+	((details === undefined) ? "" : ('<p><strong>Information: </strong>' + details + '</p>')) +
+    '</div>');
+    infowindow.open(map, marker);
+  });
+  return marker;
 	});
 	});
 	}
