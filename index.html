@@ -29,13 +29,13 @@ function initialiseMap() {
 	function(data) {
 		$(data.values).each(function() {
 		var title = this[0];
-		var date = this[2];
-		var frequency = this[3];
-		var time = this[4];
-		var details = this[5];
+		var date = this[3];
+		var frequency = this[4];
+		var time = this[5];
+		var details = this[6];
 		var position = {
-		 lat: parseFloat(parseFloat(this[6])),
-		 lng: parseFloat(parseFloat(this[7]))
+		 lat: parseFloat(parseFloat(this[7])),
+		 lng: parseFloat(parseFloat(this[8]))
 		 };	
 		 var marker = new google.maps.Marker({
 			position: position,
