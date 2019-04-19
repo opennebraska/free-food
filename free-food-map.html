@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #map {
+        height: 400px;  
+        width: 100%;  
+       }
+    </style>
+  </head>
+  <body>
+    <h3>Free Food Map</h3>
+    <div id="map"></div>
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCS1GYR89D0t8w2NbSL63YAQt6GRoxmE90&callback=initialiseMap">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script>
+// Initialize and add the map
+function initialiseMap() {
+  var mapOptions = {
+	zoom: 10,
+	center: new google.maps.LatLng(0, 0)
+	};
+  var map = new google.maps.Map(
+      document.getElementById('map'), mapOptions);
+    $.getJSON("https://sheets.googleapis.com/v4/spreadsheets/1oXNON82hX5gCWbjtJ-18VFEDvfpiYjKisGkvd_CwFqU/values/A2:Z100?key=AIzaSyCS1GYR89D0t8w2NbSL63YAQt6GRoxmE90",
+	function(data) {
+		$(data.values).each(function() {
+		var title = this[0];
+		var position = {
+		 lat: parseFloat(parseFloat(this[6])),
+		 lng: parseFloat(parseFloat(this[7]))
+		 };	
+		 var marker = new google.maps.Marker({
+			position: position,
+			map: map,
+			title: title,
+		});
+	});
+	});
+	}
+	</script>
+  </body>
+</html>
