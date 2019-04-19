@@ -7,60 +7,69 @@
         width: 100%;  
        }
     </style>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+      // https://stackoverflow.com/questions/32496382/typeerror-window-initmap-is-not-a-function
+      // TypeError: window.initMap is not a function
+      function initMap() {} // now it IS a function and it is in global
+      $(() => {
+
+        // Initialize and add the map
+        initMap = function() {
+          var mapOptions = {
+            zoom: 11,
+            center: new google.maps.LatLng(41.2565, -95.9345)
+          };
+          var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+          $.getJSON(
+            "https://sheets.googleapis.com/v4/spreadsheets/1oXNON82hX5gCWbjtJ-18VFEDvfpiYjKisGkvd_CwFqU/values/A2:Z100?key=AIzaSyCS1GYR89D0t8w2NbSL63YAQt6GRoxmE90",
+            function(data) {
+              $(data.values).each(function() {
+                var title = this[0];
+                var date = this[3];
+                var type = this[2];
+                var frequency = this[4];
+                var time = this[5];
+                var details = this[6];
+                var position = {
+                  lat: parseFloat(parseFloat(this[7])),
+                  lng: parseFloat(parseFloat(this[8]))
+                };
+                var marker = new google.maps.Marker({
+                  position: position,
+                  map: map,
+                  title: title,
+                });
+                var infowindow = new google.maps.InfoWindow({
+                  content: "Content String"
+                });
+                google.maps.event.addListener(marker, 'click', function() {
+                  infowindow.setContent(
+                    '<div>'+
+                    '<p><strong>' + ((title === undefined) ? title : ('<a href="' + title +'">' + title + '</a>')) + '</strong></p>' +
+                    ((type === undefined) ? "" : ('<p><strong>Type: </strong>' + type + '</p>')) +
+                    ((date === undefined) ? "" : ('<p><strong>Day of Week: </strong>' + date + '</p>')) +
+                    ((frequency === undefined) ? "" : ('<p><strong>Frequency: </strong>' + frequency + '</p>')) +
+                    ((time === undefined) ? "" : ('<p><strong>Time: </strong>' + time + '</p>')) +
+                    ((details === undefined) ? "" : ('<p><strong>Information: </strong>' + details + '</p>')) +
+                    '</div>'
+                  );
+                  infowindow.open(map, marker);
+                });
+                return marker;
+              });
+            }
+          );
+        };
+      });
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCS1GYR89D0t8w2NbSL63YAQt6GRoxmE90&callback=initMap"></script>
+
+
   </head>
   <body>
     <h3>Free Food Map</h3>
     <div id="map"></div>
-	<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCS1GYR89D0t8w2NbSL63YAQt6GRoxmE90&callback=initialiseMap">
-    </script>
-    <script async defer 
-	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script>
-// Initialize and add the map
-function initialiseMap() {
-  var mapOptions = {
-	zoom: 11,
-	center: new google.maps.LatLng(41.2565, -95.9345)
-	};
-  var map = new google.maps.Map(
-      document.getElementById('map'), mapOptions);
-    $.getJSON("https://sheets.googleapis.com/v4/spreadsheets/1oXNON82hX5gCWbjtJ-18VFEDvfpiYjKisGkvd_CwFqU/values/A2:Z100?key=AIzaSyCS1GYR89D0t8w2NbSL63YAQt6GRoxmE90",
-	function(data) {
-		$(data.values).each(function() {
-		var title = this[0];
-		var date = this[3];
-		var type = this[2];
-		var frequency = this[4];
-		var time = this[5];
-		var details = this[6];
-		var position = {
-		 lat: parseFloat(parseFloat(this[7])),
-		 lng: parseFloat(parseFloat(this[8]))
-		 };	
-		 var marker = new google.maps.Marker({
-			position: position,
-			map: map,
-			title: title,
-		});
-		var infowindow = new google.maps.InfoWindow({
-    content: "Content String"
-      });
-		 google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent('<div>'+
-    '<p><strong>' + ((title === undefined) ? title : ('<a href="' + title +'">' + title + '</a>')) + '</strong></p>' +
-			 ((type === undefined) ? "" : ('<p><strong>Type: </strong>' + type + '</p>')) +
-    ((date === undefined) ? "" : ('<p><strong>Day of Week: </strong>' + date + '</p>')) +
-    ((frequency === undefined) ? "" : ('<p><strong>Frequency: </strong>' + frequency + '</p>')) +
-    ((time === undefined) ? "" : ('<p><strong>Time: </strong>' + time + '</p>')) +
-	((details === undefined) ? "" : ('<p><strong>Information: </strong>' + details + '</p>')) +
-    '</div>');
-    infowindow.open(map, marker);
-  });
-  return marker;
-	});
-	});
-	}
-	</script>
   </body>
 </html>
