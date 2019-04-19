@@ -36,6 +36,7 @@
                   lat: parseFloat(parseFloat(this[7])),
                   lng: parseFloat(parseFloat(this[8]))
                 };
+                var url = this[9];
                 var marker = new google.maps.Marker({
                   position: position,
                   map: map,
@@ -47,7 +48,7 @@
                 google.maps.event.addListener(marker, 'click', function() {
                   infowindow.setContent(
                     '<div>'+
-                    '<p><strong>' + ((title === undefined) ? title : ('<a href="' + title +'">' + title + '</a>')) + '</strong></p>' +
+                    '<p><strong>' + ((title === undefined) ? title : ('<a href="' + url +'">' + title + '</a>')) + '</strong></p>' +
                     ((type === undefined) ? "" : ('<p><strong>Type: </strong>' + type + '</p>')) +
                     ((date === undefined) ? "" : ('<p><strong>Day of Week: </strong>' + date + '</p>')) +
                     ((frequency === undefined) ? "" : ('<p><strong>Frequency: </strong>' + frequency + '</p>')) +
