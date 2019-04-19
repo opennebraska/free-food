@@ -30,6 +30,7 @@ function initialiseMap() {
 		$(data.values).each(function() {
 		var title = this[0];
 		var date = this[3];
+		var type = this[2];
 		var frequency = this[4];
 		var time = this[5];
 		var details = this[6];
@@ -48,6 +49,7 @@ function initialiseMap() {
 		 google.maps.event.addListener(marker, 'click', function() {
     infowindow.setContent('<div>'+
     '<p><strong>' + ((title === undefined) ? title : ('<a href="' + title +'">' + title + '</a>')) + '</strong></p>' +
+			 ((type === undefined) ? "" : ('<p><strong>Type: </strong>' + type + '</p>')) +
     ((date === undefined) ? "" : ('<p><strong>Day of Week: </strong>' + date + '</p>')) +
     ((frequency === undefined) ? "" : ('<p><strong>Frequency: </strong>' + frequency + '</p>')) +
     ((time === undefined) ? "" : ('<p><strong>Time: </strong>' + time + '</p>')) +
