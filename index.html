@@ -31,8 +31,9 @@
             function(data) {
               $(data.values).each(function() {
                 var title = this[0];
-                var date = this[3];
+                var address = this[1];
                 var type = this[2];
+                var date = this[3];
                 var frequency = this[4];
                 var time = this[5];
                 var details = this[6];
@@ -49,6 +50,14 @@
                 var infowindow = new google.maps.InfoWindow({
                   content: "Content String"
                 });
+                $('#sheet_in_html > tbody:last-child').append(
+                  '<tr>' + 
+                  '<td>A</td>' + 
+                  '<td>' + title + '</td>' + 
+                  '<td>' + address + '</td>' + 
+                  '</tr>'
+                );
+
                 google.maps.event.addListener(marker, 'click', function() {
                   infowindow.setContent(
                     '<div>'+
@@ -75,8 +84,20 @@
   </head>
   <body>
     <h3>Free Food Map</h3>
+
     <div id="map"></div>
 
+    <table id="sheet_in_html">
+      <tbody>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Address</th>
+        </tr>
+      </tbody>
+    </table>
+
     <iframe id="spreadsheet" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vToIJP_U8FzOMG0Z-0_bQjvMlePoulSaZHKUq9r1r7ALBh3qltLipGqYNpMte1auIb16SLXhMKs4lZF/pubhtml?widget=true&amp;headers=false"></iframe>
+
   </body>
 </html>
