@@ -21,33 +21,33 @@
 
         // Initialize and add the map
         initMap = function() {
-          var mapOptions = {
+          mapOptions = {
             zoom: 11,
             center: new google.maps.LatLng(41.2565, -95.9345)
           };
-          var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+          map = new google.maps.Map(document.getElementById('map'), mapOptions);
           $.getJSON(
             "https://sheets.googleapis.com/v4/spreadsheets/1oXNON82hX5gCWbjtJ-18VFEDvfpiYjKisGkvd_CwFqU/values/A2:Z100?key=AIzaSyCS1GYR89D0t8w2NbSL63YAQt6GRoxmE90",
             function(data) {
               $(data.values).each(function() {
-                var title = this[0];
-                var address = this[1];
-                var type = this[2];
-                var date = this[3];
-                var frequency = this[4];
-                var time = this[5];
-                var details = this[6];
-                var position = {
+                title = this[0];
+                address = this[1];
+                type = this[2];
+                date = this[3];
+                frequency = this[4];
+                time = this[5];
+                details = this[6];
+                position = {
                   lat: parseFloat(parseFloat(this[7])),
                   lng: parseFloat(parseFloat(this[8]))
                 };
-                var url = this[9];
-                var marker = new google.maps.Marker({
+                url = this[9];
+                marker = new google.maps.Marker({
                   position: position,
                   map: map,
                   title: title,
                 });
-                var infowindow = new google.maps.InfoWindow({
+                infowindow = new google.maps.InfoWindow({
                   content: "Content String"
                 });
                 $('#sheet_in_html > tbody:last-child').append(
